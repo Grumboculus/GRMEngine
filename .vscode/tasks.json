@@ -1,0 +1,25 @@
+{
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "C/C++: g++.exe build active file",
+            "command": "$files = Get-ChildItem -Path '${workspaceFolder}' -Recurse -Filter '*.cpp' | Where-Object { $_.FullName -notlike '*\\build\\*' } | Select-Object -ExpandProperty FullName; & 'C:\\MinGW\\bin\\g++.exe' -fdiagnostics-color=always -g -I'${workspaceFolder}' @files -o '${workspaceFolder}\\main.exe'",
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "shell": {
+                    "executable": "powershell.exe",
+                    "args": ["-NoProfile", "-Command"]
+                }
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Builds all .cpp files in the workspace recursively."
+        }
+    ],
+    "version": "2.0.0"
+}
