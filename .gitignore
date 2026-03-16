@@ -1,0 +1,10 @@
+# CMake build directories
+build/
+out/
+
+# macOS specific
+.DS_Store
+*.dSYM/
+
+# VS Code specific (optional but recommended depending on your setup)
+.vscode/ipch/
