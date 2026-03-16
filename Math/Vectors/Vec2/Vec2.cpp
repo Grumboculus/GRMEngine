@@ -4,30 +4,27 @@
 namespace engine {
 namespace math {
 
-Vec2::Vec2() : x(0.0f), y(0.0f), magnitude(0.0f) {
-    RecalculateMagnitude();
-}
+Vec2::Vec2() : x(0.0f), y(0.0f) {}
 
-Vec2::Vec2(float xVal, float yVal) : x(xVal), y(yVal), magnitude(0.0f) {
-    RecalculateMagnitude();
-}
-
-void Vec2::RecalculateMagnitude() { magnitude = std::sqrt(x * x + y * y); }
+Vec2::Vec2(float xVal, float yVal) : x(xVal), y(yVal) {}
 
 float Vec2::GetX() const { return x; }
 float Vec2::GetY() const { return y; }
-float Vec2::GetMagnitude() const { return magnitude; }
 
-void Vec2::SetX(float xVal) { x = xVal; RecalculateMagnitude(); }
-void Vec2::SetY(float yVal) { y = yVal; RecalculateMagnitude(); }
-void Vec2::Set(float xVal, float yVal) { x = xVal; y = yVal; RecalculateMagnitude(); }
+void Vec2::SetX(float xVal) { x = xVal; }
+void Vec2::SetY(float yVal) { y = yVal; }
+void Vec2::Set(float xVal, float yVal) { x = xVal; y = yVal; }
 
 Vec2 Vec2::Normalize() const {
-    if (magnitude == 0.0f) {
+    if (Vec2::Length() == 0.0f) {
         return Vec2(0.0f, 0.0f);
     }
 
     return Vec2(x / magnitude, y / magnitude);
+}
+
+float Vec2::Length() const {
+    return std::sqrt(x * x + y * y);
 }
 
 }
