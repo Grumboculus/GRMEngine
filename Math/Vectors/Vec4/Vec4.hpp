@@ -6,17 +6,24 @@ namespace math {
     
     class Vec4 {
         private:
-            float x, y, z;
-            int w;
+            float x, y, z, w;
 
         public:
             Vec4();
-            Vec4(float xVal, float yVal, float zVal, int wVal);
+            Vec4(float xVal, float yVal, float zVal, float wVal);
 
             float GetX() const;
             float GetY() const;
             float GetZ() const;
-            int GetW() const;
+            float GetW() const;
+
+            void SetX(float xVal);
+            void SetY(float yVal);
+            void SetZ(float zVal);
+            void SetW(float wVal);
+
+            Vec4 operator+(const Vec4& other) const;
+            Vec4 operator-(const Vec4& other) const;
     };
 
 }
