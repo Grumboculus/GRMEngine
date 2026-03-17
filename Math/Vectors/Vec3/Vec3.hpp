@@ -25,6 +25,8 @@ namespace math {
             Vec3 Normalized() const;
 
             float Dot(const Vec3& other) const;
+
+            Vec3 operator+(const Vec3& other) const;
     };
 
 }

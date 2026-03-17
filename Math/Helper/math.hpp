@@ -1,6 +1,13 @@
-#define Math.hpp
+#define MATH_HPP
 #ifndef MATH_HPP
-using namespace engine::math;
+
+namepsace engine {
+namespace math {
+
+    float Clamp(float max, float min, float x);
+
+}
+}
 
 
 

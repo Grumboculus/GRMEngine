@@ -30,3 +30,7 @@ Vec3 Vec3::Normalized() const {
 float Vec3::Dot(const Vec3& other) const {
     return 0.0f;
 }
+
+Vec3 Vec3::operator+(const Vec3& other) const {
+    return Vec3(this->GetX() + other.GetX(), this->GetY() + other.GetY(), this->GetZ() + other.GetZ());
+}
