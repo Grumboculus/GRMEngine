@@ -27,5 +27,13 @@ float Vec2::Length() const {
     return std::sqrt(x * x + y * y);
 }
 
+Vec2 Vec2::operator+(const Vec2& other) const {
+    return Vec2(this->GetX() + other.GetX(), this->GetY() + other.GetY());
+}
+
+Vec2 Vec2::operator-(const Vec2& other) const {
+    return Vec2(this->GetX() - other.GetX(), this->GetY() - other.GetY());
+}
+
 }
 }

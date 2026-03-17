@@ -22,6 +22,9 @@ class Vec2 {
         Vec2 Normalize() const;
 
         float Length() const;
+
+        Vec2 operator+(const Vec2& other) const;
+        Vec2 operator-(const Vec2& other) const;
     };
 
 }
