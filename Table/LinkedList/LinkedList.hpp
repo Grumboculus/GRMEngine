@@ -2,9 +2,10 @@
 #define LINKEDLIST_HPP
 
 #include <stdexcept>
+#include "../Vector/Vector.hpp"
 
 namespace engine {
-namespace tables {
+namespace data_structs {
 
     /**
      * @brief A basic Node structure used inside the LinkedList.
@@ -26,42 +27,88 @@ namespace tables {
     class LinkedList {
         private:
             Node<T>* head; // Pointer to the start of the list
-            int size;
+            int m_size;    // Renamed size to m_size to prevent shadowing
             
         public:
             
             LinkedList() {
-                head = nullptr
-                size = 0;
+                head = nullptr;
+                m_size = 0;
             }
 
-            ~LinkedList() {
-                Node<T>* current = head;
+            // Copy Constructor
+            LinkedList(const LinkedList& other) {
+                head = nullptr;
+                m_size = 0;
+                Node<T>* current = other.head;
                 while (current != nullptr) {
-                    Node<T>* nextNode = current->next; // Save the next pointer before deleting
-                    delete current;                    // Free the memory
-                    current = nextNode;
+                    push_back(current->value);
+                    current = current->next;
                 }
             }
 
+            // Copy Assignment
+            LinkedList& operator=(const LinkedList& other) {
+                if (this == &other) return *this;
+                clear();
+                Node<T>* current = other.head;
+                while (current != nullptr) {
+                    push_back(current->value);
+                    current = current->next;
+                }
+                return *this;
+            }
+
+            // Move Constructor
+            LinkedList(LinkedList&& other) noexcept : head(other.head), m_size(other.m_size) {
+                other.head = nullptr;
+                other.m_size = 0;
+            }
+
+            // Move Assignment
+            LinkedList& operator=(LinkedList&& other) noexcept {
+                if (this == &other) return *this;
+                clear();
+                head = other.head;
+                m_size = other.m_size;
+                other.head = nullptr;
+                other.m_size = 0;
+                return *this;
+            }
+
+            ~LinkedList() {
+                clear();
+            }
+
+            void clear() {
+                Node<T>* current = head;
+                while (current != nullptr) {
+                    Node<T>* nextNode = current->next;
+                    delete current;                    
+                    current = nextNode;
+                }
+                head = nullptr;
+                m_size = 0;
+            }
+
             void push_front(const T& value) {
-                Node<T>* NewNode = new Node<T>;
+                Node<T>* newNode = new Node<T>;
 
-                NewNode->value = value;
-                NewNode->next = head;
+                newNode->value = value;
+                newNode->next = head;
 
-                head = NewNode;
+                head = newNode;
 
-                size++;
+                m_size++;
             }
 
             void push_back(const T& value) {
-                Node<T>* NewNode = new Node<T>;
-                NewNode->value = value;
-                NewNode->next = nullptr;
+                Node<T>* newNode = new Node<T>;
+                newNode->value = value;
+                newNode->next = nullptr;
 
                 if (head == nullptr) {
-                    head = NewNode;
+                    head = newNode;
                 } else {
                     Node<T>* current = head;
 
@@ -69,9 +116,9 @@ namespace tables {
                         current = current->next;
                     }
 
-                    current->next = NewNode;
+                    current->next = newNode;
                 }
-                size++;
+                m_size++;
             }
 
             void pop_front() {
@@ -83,7 +130,7 @@ namespace tables {
 
                 delete nodeToDelete;
 
-                size--;
+                m_size--;
             }
 
             void pop_back() {
@@ -92,7 +139,7 @@ namespace tables {
                 if (head->next == nullptr) {
                     delete head;
                     head = nullptr;
-                    size--;
+                    m_size--;
                     return;
                 }
 
@@ -105,19 +152,20 @@ namespace tables {
 
                 current->next = nullptr;
 
-                size--;
+                m_size--;
             }
 
-            void insert(T insert, int index) {
-                if ( index < 0 || index > size ) { throw std::out_of_range("Index provided is out of bounds.")};
+            void insert(const T& insertedValue, int index) {
+                if ( index < 0 || index > m_size ) { throw std::out_of_range("Index provided is out of bounds."); }
 
-                Node<T>* InsertedNode = new Node<T>;
+                Node<T>* insertedNode = new Node<T>;
 
-                InsertedNode->value = insert;
+                insertedNode->value = insertedValue;
 
                 if (index == 0) {
-                    InsertedNode->next = head;
-                    head = InsertedNode;
+                    insertedNode->next = head;
+                    head = insertedNode;
+                    m_size++;
                     return;
                 }
 
@@ -126,22 +174,24 @@ namespace tables {
                     current = current->next;
                 }
 
-                Node<T>* Temporary = current->next;
+                Node<T>* temp = current->next;
 
-                current->next = InsertedNode;
-                InsertedNode->next = Temporary;
+                current->next = insertedNode;
+                insertedNode->next = temp;
 
-                size++;
+                m_size++;
             }
             
             void remove(int index) {
-                if ( index > size || index < -1 ) throw std::out_of_range("Provided Index was out of bounds.");
+                if ( index >= m_size || index < 0 ) throw std::out_of_range("Provided Index was out of bounds.");
 
                 if ( index == 0 ) {
-                    Node<T>* Temporary = head->next;
+                    Node<T>* temp = head->next;
 
                     delete head;
-                    Temporary = head;
+                    head = temp;
+                    m_size--;
+                    return;
                 }
 
                 Node<T>* current = head;
@@ -149,81 +199,119 @@ namespace tables {
                     current = current->next;
                 }
 
-                if ( current->next == nullptr ) {
-                    delete current->next;
-                }
+                Node<T>* nodeToDelete = current->next;
+                current->next = nodeToDelete->next;
 
-                Node<T>* afterList = current->next->next;
-
-                delete current->next;
-
-                current->next = afterList;
-
-                size--;
+                delete nodeToDelete;
+                m_size--;
             }
     
-            void erase(T removedValue) {
+            void erase(const T& removedValue) {
+                // Erase ALL matching values
+                while (head != nullptr && head->value == removedValue) {
+                    pop_front();
+                }
+
+                if (head == nullptr) return;
+
                 Node<T>* current = head;
-                for ( int i = 0; i < size; i++) {
-                    current = current->next;
-
+                while (current->next != nullptr) {
                     if (current->next->value == removedValue) {
-                        Node<T>* temporarynext = current->next;
-
-                        delete current->next;
-
-                        current->next = temporarynext;
-
-                        size--;
+                        Node<T>* nodeToDelete = current->next;
+                        current->next = nodeToDelete->next;
+                        delete nodeToDelete;
+                        m_size--;
+                    } else {
+                        current = current->next;
                     }
                 }
             }
     
-            Node<T>* front() {
-                return head;
+            T& front() {
+                if (head == nullptr) throw std::domain_error("List head points to null.");
+                return head->value;
             }
 
-            Node<T>* back() {
+            const T& front() const {
+                if (head == nullptr) throw std::domain_error("List head points to null.");
+                return head->value;
+            }
+
+            T& back() {
+                if (head == nullptr) throw std::domain_error("List head points to null.");
+
                 Node<T>* current = head;
+
                 while ( current->next != nullptr ) {
-                    current->next;
+                    current = current->next;
                 }
 
-                return current;
+                return current->value;
             }
 
-            Node<T>* at(int index) {
+            const T& back() const {
+                if (head == nullptr) throw std::domain_error("List head points to null.");
+
+                Node<T>* current = head;
+
+                while ( current->next != nullptr ) {
+                    current = current->next;
+                }
+
+                return current->value;
+            }
+
+            T& at(int index) {
+                if (index < 0 || index >= m_size) throw std::out_of_range("Index provided is out of bounds.");
+
                 Node<T>* current = head;
 
                 for ( int i = 0; i < index; i++) {
                     current = current->next;
                 }
 
-                return current;
+                return current->value;
             }
 
-            Node<T>* operator[](int index) {
+            const T& at(int index) const {
+                if (index < 0 || index >= m_size) throw std::out_of_range("Index provided is out of bounds.");
+
+                Node<T>* current = head;
+
+                for ( int i = 0; i < index; i++) {
+                    current = current->next;
+                }
+
+                return current->value;
+            }
+
+            T& operator[](int index) {
+                return this->at(index);
+            }
+
+            const T& operator[](int index) const {
                 return this->at(index);
             }
     
-            int size() {return size;}
+            int size() const {return m_size;}
 
-            bool isEmpty() {
-                return size == 0;
+            bool isEmpty() const {
+                return m_size == 0;
             }
     
-            /*
-                TO FIX:
-                    Currently returns only one value
-                    No safety if no value found
-            */
-            Node<T>* find(T neededValue) {
+            engine::data_structs::Vector<Node<T>*> find(const T& neededValue) {
                 Node<T>* current = head;
-                for (int i = 0; i < size; i++) {
-                    current = current->next
 
-                    if (current->value == neededValue) return current;
+                engine::data_structs::Vector<Node<T>*> ReturnVector;
+
+                while (current != nullptr) {
+                    if (current->value == neededValue) {
+                        ReturnVector.Push(current);
+                    }
+                    current = current->next;
                 }
+
+                return ReturnVector;
             }
     
             
