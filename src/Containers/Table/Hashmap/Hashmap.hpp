@@ -2,7 +2,7 @@
 #define HASHMAP_HPP
 
 namespace engine {
-namespace tables {
+namespace data_structs {
 
     /**
      * @brief A basic Hashmap data structure.

@@ -4,7 +4,7 @@
 #include <stdexcept>
 
 namespace engine {
-namespace tables {
+namespace data_structs {
 
     /**
      * @brief A dynamic array implementation that resizes automatically.
