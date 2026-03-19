@@ -1,8 +1,7 @@
 #include <iostream>
 #include <cstdlib>
-// Include app
+
 #include <Core/application/application.hpp>
-// Include necessary headers for mathematical vectors and table data structures 
 #include <Math/Vectors/Vec2/Vec2.hpp>
 #include <Containers/Table/Vector/Vector.hpp>
 
@@ -15,7 +14,9 @@ int main(){
     
     engine::core::application app;
 
-    app.Run();
+    engine::math::Vec2 player = app.InitPlayer();
+
+    app.Run(player);
 
     return 0;
 }

@@ -10,32 +10,38 @@ namespace core {
 
     }
 
-    void application::Run() {
+    engine::math::Vec2 application::InitPlayer() {
+        engine::math::Vec2 PlayerPos((float) 400.0f, (float) 225.0f);
+
+        return PlayerPos;
+    }
+
+    void application::Run(engine::math::Vec2 Player) {
         const int screenWidth = 800;
         const int screenHeight = 450;
 
         InitWindow(screenWidth, screenHeight, "GRMEngine");
 
-        engine::math::Vec2 PlayerPos((float)screenHeight/2,(float)screenHeight/2); 
-
         SetTargetFPS(60);
 
         while (!WindowShouldClose()) {
             // Input
+                float dt = GetFrameTime();
+
                 if (IsKeyDown(KEY_W)) {
-                    std::cout << "Pressed W.";
+                    Player.SetY(Player.GetY() - 200.0f * dt);
                 }
 
                 if (IsKeyDown(KEY_A)) {
-                    std::cout << "Pressed A.";
+                    Player.SetX(Player.GetX() - 200.0f * dt);
                 }
 
                 if (IsKeyDown(KEY_S)) {
-                    std::cout << "Pressed S.";
+                    Player.SetY(Player.GetY() + 200.0f * dt);
                 }
 
                 if (IsKeyDown(KEY_D)) {
-                    std::cout << "Pressed D.";
+                    Player.SetX(Player.GetX() + 200.0f * dt);
                 }
                 
             // Update
@@ -46,7 +52,7 @@ namespace core {
                 ClearBackground(RAYWHITE);
 
                 // Initialize Raylib's Vector2 struct using our engine's Vec2 data
-                Vector2 rayPos = { PlayerPos.GetX(), PlayerPos.GetY() };
+                Vector2 rayPos = { Player.GetX(), Player.GetY() };
                 Vector2 raySize = { 10.0f, 10.0f }; // Make it 10x10 so it's visible
 
                 DrawRectangleV(rayPos, raySize, RED);
