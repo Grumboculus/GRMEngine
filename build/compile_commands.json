@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/Users/grumbo/Documents/GitHub/GRMEngine/build",
+  "command": "/usr/bin/c++   -g -arch arm64 -o CMakeFiles/GRMEngine.dir/main.cpp.o -c /Users/grumbo/Documents/GitHub/GRMEngine/main.cpp",
+  "file": "/Users/grumbo/Documents/GitHub/GRMEngine/main.cpp",
+  "output": "CMakeFiles/GRMEngine.dir/main.cpp.o"
+}
+]
