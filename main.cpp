@@ -1,5 +1,6 @@
 #include <iostream>
+#include "./engine/include/grm/math/Utils.hpp"
 
 int main(int, char**){
-    std::cout << "Hello, from GRMEngine!\n";
+    std::cout << PI<float>;
 }
