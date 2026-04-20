@@ -8,6 +8,8 @@ class Vec2 {
         T x, y;
     public: 
 
+        void Vec2() { return Vec2<T>(static_assert<T>(1), static_assert<T>(1)) }
+
         Vec2(const T xVal, const T yVal) void {
             x = xVal;
             y = yVal;
@@ -27,7 +29,15 @@ class Vec2 {
             return x, y;
         }
 
-        SetX()
+        void SetX(T newX) {
+            this.x = newX;
+            return;
+        }
+
+        void SetY(T newY) {
+            this.y = newY;
+            return;
+        }
 };
 
 #endif
