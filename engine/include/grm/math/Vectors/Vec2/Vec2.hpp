@@ -2,6 +2,7 @@
 #define VEC2_HPP
 
 #include "../../Utilities/Utils.hpp"
+#include <concepts>
 
 template <typename T>
 
@@ -43,14 +44,26 @@ class Vec2 {
         }
 
         Vec2 normalized() const {
-           T x =  this->x / this->length();
-           T y = this->y / this->length();
-           return Vec2(x, y);
+            T len = this->length();
+            if (len == static_cast<T>(0)) {
+                return Vec2();
+            }
+
+            T normalizedX = this->x / len;
+            T normalizedY = this->y / len;
+            return Vec2(normalizedX, normalizedY);
         }
 
         void normalize() {
-            T newX = this->x / this->length();
-            T newY = this->y / this->length();
+            T len = this->length();
+            if (len == static_cast<T>(0)) {
+                this->x = static_cast<T>(0);
+                this->y = static_cast<T>(0);
+                return;
+            }
+
+            T newX = this->x / len;
+            T newY = this->y / len;
             
             this->x = newX;
             this->y = newY;
@@ -58,10 +71,14 @@ class Vec2 {
             return;
         }
 
-        Vec2 distance(const Vec2& other) {
+        Vec2 displacement(const Vec2& other) const {
             T dx = this->x - other.x;
             T dy = this->y - other.y;
             return Vec2(dx, dy);
+        }
+
+        T distance(const Vec2& other) const {
+            return this->displacement(other).length();
         }
 
         // Operators
@@ -84,22 +101,28 @@ class Vec2 {
             return Vec2(newX, newY);
         }
 
+        Vec2 operator*(T scalar) const {
+            return Vec2(this->x * scalar, this->y * scalar);
+        }
+
         Vec2 operator/(const Vec2& other) const {
             T newX = this->x / other.x;
             T newY = this->y / other.y;
             return Vec2(newX, newY);
         }
 
+        Vec2 operator/(T scalar) const {
+            return Vec2(this->x / scalar, this->y / scalar);
+        }
+
         bool operator==(const Vec2& other) const {
-            if (this->x != other.x) {
-                return false;
+            if constexpr (std::floating_point<T>) {
+                const T epsilon = math::EPSILON<T> * static_cast<T>(8);
+                return math::abs(this->x - other.x) <= epsilon &&
+                       math::abs(this->y - other.y) <= epsilon;
             }
 
-            if (this->y != other.y) {
-                return false;
-            }
-
-            return true;
+            return this->x == other.x && this->y == other.y;
         }
 
         Vec2& operator=(const Vec2& other) {
@@ -108,28 +131,40 @@ class Vec2 {
             return *this;
         }
 
-        void operator+=(const Vec2& other) {
+        Vec2& operator+=(const Vec2& other) {
             this->x = this->x + other.x;
             this->y = this->y + other.y;
-            return;
+            return *this;
         }
 
-        void operator-=(const Vec2& other) {
+        Vec2& operator-=(const Vec2& other) {
             this->x = this->x - other.x;
             this->y = this->y - other.y;
-            return;
+            return *this;
         } 
         
-        void operator*=(const Vec2& other) {
+        Vec2& operator*=(const Vec2& other) {
             this->x = this->x * other.x;
             this->y = this->y * other.y;
-            return;
+            return *this;
         } 
+
+        Vec2& operator*=(T scalar) {
+            this->x = this->x * scalar;
+            this->y = this->y * scalar;
+            return *this;
+        }
         
-        void operator/=(const Vec2& other) {
+        Vec2& operator/=(const Vec2& other) {
             this->x = this->x / other.x;
             this->y = this->y / other.y;
-            return;
+            return *this;
+        }
+
+        Vec2& operator/=(T scalar) {
+            this->x = this->x / scalar;
+            this->y = this->y / scalar;
+            return *this;
         }
         
 };
