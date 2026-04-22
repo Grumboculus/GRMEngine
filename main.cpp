@@ -3,7 +3,7 @@
 #include "./engine/include/grm/math/Vectors/Vec2/Vec2.hpp"
 
 int main(int, char**){
-    Vec2 NewVec = Vec2(5, 5);
-    std::cout << NewVec.dot(Vec2(3,3));
+    Vec2 NewVec = Vec2(3, 4);
+    std::cout << NewVec.length() << std::endl;
     return 0;
 }
