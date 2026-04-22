@@ -5,12 +5,13 @@ template <typename T>
 
 class Vec3 {
     private:
-        T x, y;
+        T x, y, z;
     public: 
 
-        Vec3(const T xVal, const T yVal) void {
+        Vec3(const T xVal, const T yVal, const T zVal) void {
             x = xVal;
             y = yVal;
+            z = zVal;
 
             return;
         }
@@ -23,8 +24,8 @@ class Vec3 {
             return y;
         }
 
-        xy() const T {
-            return x, y;
+        xyz() const T {
+            return this.x, this.y, this.z;
         }
 
         
