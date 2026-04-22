@@ -59,7 +59,9 @@ class Vec2 {
         }
 
         Vec2 distance(const Vec2& other) {
-
+            T dx = this->x - other.x;
+            T dy = this->y - other.y;
+            return Vec2(dx, dy);
         }
 
         // Operators
@@ -105,6 +107,31 @@ class Vec2 {
             y = other.y;
             return *this;
         }
+
+        void operator+=(const Vec2& other) {
+            this->x = this->x + other.x;
+            this->y = this->y + other.y;
+            return;
+        }
+
+        void operator-=(const Vec2& other) {
+            this->x = this->x - other.x;
+            this->y = this->y - other.y;
+            return;
+        } 
+        
+        void operator*=(const Vec2& other) {
+            this->x = this->x * other.x;
+            this->y = this->y * other.y;
+            return;
+        } 
+        
+        void operator/=(const Vec2& other) {
+            this->x = this->x / other.x;
+            this->y = this->y / other.y;
+            return;
+        }
+        
 };
 
 #endif
