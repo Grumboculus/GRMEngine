@@ -5,28 +5,16 @@ template <typename T>
 
 class Vec4 {
     private:
-        T x, y;
+
     public: 
+        // Variables
+        T x, y, z;
+        int w;
 
-        Vec4(const T xVal, const T yVal) void {
-            x = xVal;
-            y = yVal;
+        // Constructors
+        Vec4(const T xVal, const T yVal, const T zVal, const int wVal) const : x(xVal), y(yVal), z(zVal), w(wVal) {}
 
-            return;
-        }
-
-        GetX() const T {
-            return x;
-        }
-
-        GetY() const T {
-            return y;
-        }
-
-        xy() const T {
-            return x, y;
-        }
-
+        Vec4() const : x(static_cast<T>(0), static_cast<T>(0), static_cast<T>(0), 0) {}
         
 };
 

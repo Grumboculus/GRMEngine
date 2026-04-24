@@ -8,33 +8,17 @@ template <typename T>
 
 class Vec2 {
     private:
-        T x, y;
+
     public: 
+
+        T x, y;
 
         Vec2() : x(static_cast<T>(0)), y(static_cast<T>(0)) {}
 
         Vec2(const T xVal, const T yVal) : x(xVal), y(yVal) {}
 
-        T GetX() const {
-            return x;
-        }
-
-        T GetY() const {
-            return y;
-        }
-
-        void SetX(T newX) {
-            this->x = newX;
-            return;
-        }
-
-        void SetY(T newY) {
-            this->y = newY;
-            return;
-        }
-
         T dot(const Vec2& other) const {
-            return (this->GetX() * other.GetX()) + (this->GetY() * other.GetY());
+            return (this->x * other.x) + (this->y * other.y);
         }
 
         T length() const {
@@ -75,7 +59,7 @@ class Vec2 {
             T dx = this->x - other.x;
             T dy = this->y - other.y;
             return Vec2(dx, dy);
-        }
+s        }
 
         T distance(const Vec2& other) const {
             return this->displacement(other).length();
