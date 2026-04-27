@@ -59,7 +59,7 @@ class Vec2 {
             T dx = this->x - other.x;
             T dy = this->y - other.y;
             return Vec2(dx, dy);
-s        }
+        }
 
         T distance(const Vec2& other) const {
             return this->displacement(other).length();
