@@ -16,6 +16,49 @@ class Vec4 {
 
         Vec4() const : x(static_cast<T>(0), static_cast<T>(0), static_cast<T>(0), 0) {}
 
+        // Length
+        T length() const {
+            T length = (this->x * this->x) + (this->y * this->y) + (this->z * this->z);
+            length = math::sqrt(length);
+            return length;
+        }
+
+        T lengthSquared() const {
+            return (this->x * this->x) + (this->y * this->y) + (this->z * this->z);
+        }
+
+        T normalized() const {
+            T len = this->length();
+            if (len == static_cast<T>(0)) {
+                return Vec4();
+            }
+
+            T normalizedX = this->x / len;
+            T normalizedY = this->y / len;
+            T normalizedZ = this->z / len;
+            return Vec4(normalizedX, normalizedY, normalizedZ, this->w);
+        }
+
+        void normalize() {
+            T len = this->length();
+            if (len == static_cast<T>(0)) {
+                this->x = static_cast<T>(0);
+                this->y = static_cast<T>(0);
+                this->z = static_cast<T>(0);
+                return;
+            }
+
+            T newX = this->x / len;
+            T newY = this->y / len;
+            T newZ = this->z / len;
+            
+            this->x = newX;
+            this->y = newY;
+            this->z = newZ;
+            
+            return;
+        }
+
 
 
         // Operators
