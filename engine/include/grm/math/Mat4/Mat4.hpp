@@ -27,8 +27,20 @@ struct Mat4 {
     }
 
     // Operators
-    operator*(const Mat4& other) {
-        
+    Mat4 operator*(const Mat4& other) const {
+        Mat4 result;
+
+        for (int r = 0; r < 4; ++r) {
+            for (int c = 0; c < 4; ++c) {
+                T sum = T(0);
+                for (int k = 0; k < 4; ++k) {
+                    sum += get(r, k) * other.get(k, c);
+                }
+                result.set(r, c, sum);
+            }
+        }
+
+        return result;
     }
 };
 
