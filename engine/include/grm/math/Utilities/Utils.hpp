@@ -171,6 +171,13 @@ constexpr A cos(A x) noexcept {
     return result;
 }
 
+template <Arithmetic A>
+
+constexpr A tan(A x) noexcept {
+    A result = std::tan<A>(x);
+    return result;
+}
+
 }
 
 #endif
