@@ -12,9 +12,9 @@ class Vec4 {
         int w;
 
         // Constructors
-        Vec4(const T xVal, const T yVal, const T zVal, const int wVal) const : x(xVal), y(yVal), z(zVal), w(wVal) {}
+        Vec4(const T xVal, const T yVal, const T zVal, const int wVal) : x(xVal), y(yVal), z(zVal), w(wVal) {}
 
-        Vec4() const : x(static_cast<T>(0), static_cast<T>(0), static_cast<T>(0), 0) {}
+        Vec4() : x(static_cast<T>(0)), y(static_cast<T>(0)), z(static_cast<T>(0)), w(0) {}
 
         // Length
         T length() const {
@@ -123,5 +123,12 @@ class Vec4 {
         bool operator !=(const Vec4& other) const {
             return !(*this == other);
         }
+};
+
+template <typename T>
+inline std::ostream& operator<<(std::ostream& os, const Vec4<T>& vec) {
+    os << vec.x << ", " << vec.y << ", " << vec.z << ", " << vec.w;
+    return os;
+}
 
 #endif

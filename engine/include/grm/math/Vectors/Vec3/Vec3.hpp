@@ -2,6 +2,7 @@
 #define VEC3_HPP
 
 #include "../../Utilities/Utils.hpp"
+#include <iostream>
 
 template <typename T>
 
@@ -209,7 +210,12 @@ class Vec3 {
             this->z = this->z / other.z;
             return *this;
         }
-         
 };
+
+template <typename T>
+inline std::ostream& operator<<(std::ostream& os, const Vec3<T>& vec) {
+    os << vec.x << ", " << vec.y << ", " << vec.z;
+    return os;
+}
 
 #endif
