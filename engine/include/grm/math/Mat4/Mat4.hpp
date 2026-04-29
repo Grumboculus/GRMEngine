@@ -12,9 +12,27 @@ struct Mat4 {
         }
     }
 
+    static Mat4 translate(T x, T y, T z) {
+        Mat4 result = identity();
+        result.set(0, 3, x);
+        result.set(1, 3, y);
+        result.set(2, 3, z);
+        return result;
+    }
+
+
+    static Mat4 identity() {
+        Mat4 result;
+        result.set(0, 0, T(1));
+        result.set(1, 1, T(1));
+        result.set(2, 2, T(1));
+        result.set(3, 3, T(1));
+        return result;
+    }
+
     // Deconstructor
     ~Mat4() {
-        delete data;
+        
     }
 
     // $etters
