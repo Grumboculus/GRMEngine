@@ -1,16 +1,18 @@
-#include <iostream>
-#include "./engine/include/grm/math/Utilities/Utils.hpp"
-#include "./engine/include/grm/math/Vectors/Vec2/Vec2.hpp"
-#include "./engine/include/grm/math/Vectors/Vec3/Vec3.hpp"
-#include "./engine/include/grm/math/Vectors/Vec4/Vec4.hpp"
-#include "./engine/include/grm/math/Mat4/Mat4.hpp"
+#include "grm/gal/GraphicsContext.hpp"
 
-int main(int, char**){
-    Mat4 NewMat4 = Mat4<float>();
+int main() {
+    if (!grm::gal::GraphicsContext::Init(800, 600, "GRMEngine")) {
+        return -1;
+    }
 
-    Mat4 TranslationMat4 = NewMat4.translationxyz(1, 2, 3);
+    while (!grm::gal::GraphicsContext::ShouldClose()) {
+        grm::gal::GraphicsContext::Clear(0.2f, 0.3f, 0.3f, 1.0f);
+        
+        // Render loop...
 
-    std::cout << TranslationMat4;
+        grm::gal::GraphicsContext::SwapBuffers();
+    }
 
+    grm::gal::GraphicsContext::Shutdown();
     return 0;
 }

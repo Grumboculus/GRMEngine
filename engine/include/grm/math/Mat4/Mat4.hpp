@@ -65,7 +65,7 @@ struct Mat4 {
 
     // Rotation
     static Mat4 rotationX(T angleRAD) {
-        mat4 result = Mat4::identity();
+        Mat4 result = Mat4::identity();
         T cosAngle = math::cos(angleRAD);
         T sinAngle = math::sin(angleRAD);
         result.set(1, 1, cosAngle);
